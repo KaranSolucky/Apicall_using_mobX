@@ -12,7 +12,7 @@ abstract class _UserModelBase with Store {
 
   @action
   Future fetchUsersData() => listUsersFuture = ObservableFuture(apiService
-      .getApiData("https://jsonplaceholder.typicode.com/users")
+      .getApiData("https://jsonplaceholder.typicode.com/posts")
       .then((users) => users));
 
   void getUsersData() {

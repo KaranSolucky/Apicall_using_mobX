@@ -1,3 +1,5 @@
+import 'package:apicall_mobx/model/post.dart';
+import 'package:apicall_mobx/model/postmodel.dart';
 import 'package:apicall_mobx/model/user.dart';
 import 'package:flutter/material.dart';
 
@@ -12,51 +14,42 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   UserModel userModel = UserModel();
+  PostModel postModel = PostModel();
 
   @override
   void initState() {
     super.initState();
-    userModel.getUsersData();
+    // userModel.getUsersData();
+    postModel.getUsersData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder<List<User>>(
-      future: userModel.listUsersFuture,
+        body: FutureBuilder<List<Post>>(
+      future: postModel.postUser,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ListView.separated(
               itemBuilder: (context, index) {
-                var user = (snapshot.data as List<User>)[index];
+                var user = (snapshot.data as List<Post>)[index];
                 return Container(
                   padding: EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        user.userName,
+                        user.id.toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 22),
                       ),
                       SizedBox(height: 5),
-                      Text(user.userEmail),
+                      Text(user.userId.toString()),
                       SizedBox(height: 5),
-                      Text(user.userAddress.userStreet +
-                          "" +
-                          user.userAddress.userSuite +
-                          "" +
-                          user.userAddress.userCity +
-                          "" +
-                          user.userAddress.userZipCode),
+                      Text(user.body.toString()),
                       SizedBox(height: 5),
-                      Text(user.userPhone),
+                      Text(user.title.toString()),
                       SizedBox(height: 5),
-                      Text(user.userWebsite),
-                      SizedBox(height: 5),
-                      Text(user.userCompany.name),
-                      SizedBox(height: 5),
-                      Text(user.userCompany.catchPhrase),
                     ],
                   ),
                 );
@@ -64,7 +57,7 @@ class _HomeState extends State<Home> {
               separatorBuilder: (context, index) {
                 return Divider();
               },
-              itemCount: (snapshot.data as List<User>).length);
+              itemCount: (snapshot.data as List<Post>).length);
         } else if (snapshot.hasError) {
           return Center(
             child: Text("${snapshot.error}"),
